@@ -1,0 +1,20 @@
+Find entity
+select distinct entity1 from yfact where entity1 = "?" union select distinct entity2 from yfact where entity2 = "?"
+
+Find fact through fact ID
+select entity1, relation, entity2 from yfact where feature = "?"
+
+Find all the relations whose range or domain matches the given type
+select ytype1, relation, ytype2 from yschema where ytype2 = "?"
+
+Find all the facts where the given entity occured
+select entity1, relation, entity2 from yfact where entity1 = "?" or entity2 = "?"
+
+Find all the types which the given entity belongs to
+select type from ytype where entity = "?"
+
+Return the geospatial or time infomation of the fact
+select relation, meta from ymeta where entity_feature = "?"
+
+What happened on the given date (format:MM-DD)
+select entity1,relation,entity2 from yfact where feature in (select entity_feature from ymeta where date = "?");
