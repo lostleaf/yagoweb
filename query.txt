@@ -1,5 +1,5 @@
 Find entity
-select distinct entity1 from yfact where entity1 = "?" union select distinct entity2 from yfact where entity2 = "?"
+select distinct entity1 from yfact where id in (select yfact_id from yname_yfact where yname_id = (select id from yname where yname = "?"))
 
 Find fact through fact ID
 select entity1, relation, entity2 from yfact where feature = "?"

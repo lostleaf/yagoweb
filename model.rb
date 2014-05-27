@@ -13,7 +13,26 @@ class Model
 	end
 
 	def self.query(type, arg)
-		res = @@client.query(@@queries[type.to_i].gsub('?', @@client.escape(arg)), :as => :array)
+		type = type.to_i
+		if type > 0
+			sql = @@queries[type].gsub('?', @@client.escape(arg))
+		else
+			args = arg.strip.split(/\s/)
+			temp1 = "select id from yname where yname = \"?\""
+			temp2 = "select yfact_id from yname_yfact where yname_id = (?)"
+			temp3 = "select distinct entity1 from yfact where id in (?)"
+			temp4 = "select yfact_id from yname_yfact where yname_id = (?) and yfact_id in (@)"
+
+			sql = temp2.gsub("?", temp1.gsub("?", @@client.escape(args[0])))
+
+			args[1..-1].each do |arg|
+				sql = temp4.gsub("?", temp1.gsub("?", @@client.escape(arg))).gsub("@", sql)
+			end
+			sql = temp3.gsub("?", sql)
+		end
+
+		res = @@client.query(sql, :as => :array)
 		[res.fields, res.to_a]
 	end
+
 end
