@@ -2,9 +2,9 @@ class Model
 	words = File.read("query.txt").split(/\n\n+/).map{|x| x.split("\n")}
 	@@descriptions, @@queries = words.inject([[],[]]) {|l, e| l[0]<<e[0];l[1]<<e[1];l}
 	@@client = Mysql2::Client.new(
-		:host => "211.80.57.220",   
-		:username => "yago",   
-		password: "2UejLBzC8hHcrZKd",  
+		:host => "",   
+		:username => "",   
+		password: "",  
 		database: "yago"  
 	)
 
